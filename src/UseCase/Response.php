@@ -1,0 +1,178 @@
+<?php
+
+/**
+ * This file is part of the Utils package.
+ *
+ * (c) Lorenzo Marzullo <marzullo.lorenzo@gmail.com>
+ */
+
+namespace Utils\UseCase;
+
+/**
+ * Class Response
+ * error: id, code, title, detail, source (pointer, parameter)
+ *
+ * @package Utils
+ * @author  Lorenzo Marzullo <marzullo.lorenzo@gmail.com>
+ * @link    https://github.com/lorenzomar/my-utils
+ */
+class Response extends AbstractRequestResponse
+{
+    const STATUS_SUCCESS = 'success';
+    const STATUS_ERROR   = 'error';
+
+    /**
+     * @var string
+     */
+    protected $status;
+
+    public function setError($key, $code, $title = null, $detail = null, array $meta = [])
+    {
+        $this->setAsError();
+
+        $v   = $this->get($key, []);
+        $v[] = [
+            'code'   => $code,
+            'title'  => $title,
+            'detail' => $detail,
+            'meta'   => $meta,
+        ];
+        $this->set($key, $v);
+    }
+
+    /**
+     * setGeneralError
+     *
+     * @param string      $code
+     * @param null|string $title
+     * @param null|string $detail
+     * @param array       $meta
+     */
+    public function setGeneralError($code, $title = null, $detail = null, array $meta = [])
+    {
+        return $this->setError("general", $code, $title, $detail, $meta);
+    }
+
+    /**
+     * setGeneralErrorByException
+     *
+     * @param string      $code
+     * @param \Exception  $e
+     * @param null|string $title
+     * @param null|string $detail
+     */
+    public function setGeneralErrorByException($code, \Exception $e, $title = null, $detail = null)
+    {
+        return $this->setGeneralError($code, $title, $detail, [
+            'message' => $e->getMessage(),
+            'code'    => $e->getCode(),
+            'trace'   => $e->getTraceAsString(),
+            'file'    => $e->getFile(),
+            'line'    => $e->getLine(),
+        ]);
+    }
+
+    /**
+     * getError.
+     *
+     * @param string      $key
+     * @param null|string $code
+     * @param mixed       $default
+     *
+     * @return mixed
+     */
+    public function getError($key, $code = null, $default = null)
+    {
+        $errors = $this->get($key, $default);
+
+        if ($errors === $default) {
+            return $default;
+        }
+
+        if ($code === null) {
+            return $errors;
+        }
+
+        foreach ($errors as $error) {
+            if ($error['code'] === $code) {
+                return $error;
+            }
+        }
+
+        return $default;
+    }
+
+    /**
+     * getGeneralError.
+     *
+     * @param string $code
+     * @param mixed  $default
+     *
+     * @return bool|null
+     */
+    public function getGeneralError($code, $default = null)
+    {
+        return $this->getError("general", $code, $default);
+    }
+
+    /**
+     * hasError.
+     *
+     * @param string      $key
+     * @param null|string $code
+     *
+     * @return bool
+     */
+    public function hasError($key, $code = null)
+    {
+        return $this->getError($key, $code, null) !== null;
+    }
+
+    /**
+     * hasGeneralError
+     *
+     * @param string $code
+     *
+     * @return bool
+     */
+    public function hasGeneralError($code)
+    {
+        return $this->hasError("general", $code);
+    }
+
+    /**
+     * setAsError.
+     */
+    public function setAsError()
+    {
+        $this->status = static::STATUS_ERROR;
+    }
+
+    /**
+     * setAsSuccess.
+     */
+    public function setAsSuccess()
+    {
+        $this->status = static::STATUS_SUCCESS;
+    }
+
+    /**
+     * isError.
+     *
+     * @return bool
+     */
+    public function isError()
+    {
+        return $this->status === static::STATUS_ERROR;
+    }
+
+    /**
+     * isSuccess.
+     *
+     * @return bool
+     */
+    public function isSuccess()
+    {
+        return $this->status === static::STATUS_SUCCESS;
+    }
+}
