@@ -15,7 +15,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  *
  * @package Utils
  * @author  Lorenzo Marzullo <marzullo.lorenzo@gmail.com>
- * @link    https://github.com/lorenzomar/my-utils
+ * @link    https://github.com/lorenzomar/utils
  */
 abstract class AbstractRequestResponse implements \ArrayAccess, \Countable, \IteratorAggregate
 {

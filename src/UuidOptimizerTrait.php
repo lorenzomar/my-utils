@@ -15,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @package Utils
  * @author  Lorenzo Marzullo <marzullo.lorenzo@gmail.com>
- * @link    https://github.com/lorenzomar/my-utils
+ * @link    https://github.com/lorenzomar/utils
  */
 trait UuidOptimizerTrait
 {

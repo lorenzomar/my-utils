@@ -13,7 +13,7 @@ namespace Utils\UseCase;
  *
  * @package Utils
  * @author  Lorenzo Marzullo <marzullo.lorenzo@gmail.com>
- * @link    https://github.com/lorenzomar/my-utils
+ * @link    https://github.com/lorenzomar/utils
  */
 interface UseCaseInterface
 {
