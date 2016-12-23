@@ -71,12 +71,16 @@ abstract class AbstractRequestResponse implements \ArrayAccess, \Countable, \Ite
      * Set multiple items
      *
      * @param array $items
+     *
+     * @return static
      */
     public function setMultiple(array $items)
     {
         foreach ($items as $key => $value) {
             $this->set($key, $value);
         }
+
+        return $this;
     }
 
     /**
@@ -84,10 +88,14 @@ abstract class AbstractRequestResponse implements \ArrayAccess, \Countable, \Ite
      *
      * @param string $key   The data key
      * @param mixed  $value The data value
+     *
+     * @return static
      */
     public function set($key, $value)
     {
         $this->accessor->setValue($this->data, $this->prepareKey($key), $value);
+
+        return $this;
     }
 
     /**

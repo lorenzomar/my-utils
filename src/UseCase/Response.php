@@ -26,6 +26,17 @@ class Response extends AbstractRequestResponse
      */
     protected $status;
 
+    /**
+     * setError
+     *
+     * @param string      $key
+     * @param string      $code
+     * @param null|string $title
+     * @param null|string $detail
+     * @param array       $meta
+     *
+     * @return static
+     */
     public function setError($key, $code, $title = null, $detail = null, array $meta = [])
     {
         $this->setAsError();
@@ -37,7 +48,8 @@ class Response extends AbstractRequestResponse
             'detail' => $detail,
             'meta'   => $meta,
         ];
-        $this->set($key, $v);
+
+        return $this->set($key, $v);
     }
 
     /**
@@ -47,6 +59,8 @@ class Response extends AbstractRequestResponse
      * @param null|string $title
      * @param null|string $detail
      * @param array       $meta
+     *
+     * @return static
      */
     public function setGeneralError($code, $title = null, $detail = null, array $meta = [])
     {
@@ -60,6 +74,8 @@ class Response extends AbstractRequestResponse
      * @param \Exception  $e
      * @param null|string $title
      * @param null|string $detail
+     *
+     * @return static
      */
     public function setGeneralErrorByException($code, \Exception $e, $title = null, $detail = null)
     {
@@ -142,18 +158,26 @@ class Response extends AbstractRequestResponse
 
     /**
      * setAsError.
+     *
+     * @return static
      */
     public function setAsError()
     {
         $this->status = static::STATUS_ERROR;
+
+        return $this;
     }
 
     /**
      * setAsSuccess.
+     *
+     * @return static
      */
     public function setAsSuccess()
     {
         $this->status = static::STATUS_SUCCESS;
+
+        return $this;
     }
 
     /**
