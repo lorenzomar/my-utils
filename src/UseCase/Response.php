@@ -124,7 +124,7 @@ class Response extends AbstractRequestResponse
      * @param string $code
      * @param mixed  $default
      *
-     * @return bool|null
+     * @return mixed
      */
     public function getGeneralError($code, $default = null)
     {
