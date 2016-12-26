@@ -73,19 +73,23 @@ class Response extends AbstractRequestResponse
      * @param string      $code
      * @param \Exception  $e
      * @param null|string $title
-     * @param null|string $detail
      *
      * @return static
      */
-    public function setGeneralErrorByException($code, \Exception $e, $title = null, $detail = null)
+    public function setGeneralErrorByException($code, \Exception $e, $title = null)
     {
-        return $this->setGeneralError($code, $title, $detail, [
-            'message' => $e->getMessage(),
-            'code'    => $e->getCode(),
-            'trace'   => $e->getTraceAsString(),
-            'file'    => $e->getFile(),
-            'line'    => $e->getLine(),
-        ]);
+        return $this->setGeneralError(
+            $code,
+            $title,
+            $e->getMessage(),
+            [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'trace'   => $e->getTraceAsString(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+            ]
+        );
     }
 
     /**
