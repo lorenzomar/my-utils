@@ -20,9 +20,10 @@ interface UseCaseInterface
     /**
      * __invoke.
      *
-     * @param Request $request
+     * @param Request  $request
+     * @param Response $response
      *
      * @return Response
      */
-    public function __invoke(Request $request);
+    public function __invoke(Request $request, Response $response);
 }
