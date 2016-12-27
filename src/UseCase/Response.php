@@ -103,6 +103,10 @@ class Response extends AbstractRequestResponse
      */
     public function getError($key, $code = null, $default = null)
     {
+        if (!$this->isError()) {
+            return $default;
+        }
+
         $errors = $this->get($key, $default);
 
         if ($errors === $default) {
