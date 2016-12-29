@@ -35,16 +35,14 @@ abstract class AbstractWriteHydrator extends Reflection
     {
         $s = new static();
 
-        if (!empty($namingStrategies)) {
-            $s->setNamingStrategy(new ArrayMapNamingStrategy(array_merge(
-                [
-                    'createdAt'      => 'created_at',
-                    'streamId'       => 'stream_id',
-                    'streamCategory' => 'stream_category',
-                ],
-                $namingStrategies
-            )));
-        }
+        $s->setNamingStrategy(new ArrayMapNamingStrategy(array_merge(
+            [
+                'createdAt'      => 'created_at',
+                'streamId'       => 'stream_id',
+                'streamCategory' => 'stream_category',
+            ],
+            $namingStrategies
+        )));
 
         $strategies = array_merge(
             [

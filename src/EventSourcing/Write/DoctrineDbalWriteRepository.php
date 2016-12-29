@@ -51,10 +51,8 @@ class DoctrineDbalWriteRepository implements WriteRepositoryInterface
 
     public function addMultiple(array $events)
     {
-        $e = [];
-
         foreach ($events as $event) {
-            $e[] = $this->getHydratorFromEvent($event)->extract($event);
+            $e = $this->getHydratorFromEvent($event)->extract($event);
 
             $this->connection->createQueryBuilder()
                              ->insert($this->tableName)
