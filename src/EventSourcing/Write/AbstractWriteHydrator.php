@@ -78,4 +78,19 @@ abstract class AbstractWriteHydrator extends Reflection
      * @return array
      */
     abstract protected function buildPayload(array $extractedData);
+    
+    protected function extractFields($source, array $fields, $removeFromSource = true)
+    {
+        $ret = [];
+
+        foreach ($fields as $field) {
+            if(isset($source[$field])) {
+                $ret[$field] = $source[$field];
+            }
+
+            if($removeFromSource) {
+                unset($source[$field]);
+            }
+        }
+    }
 }
