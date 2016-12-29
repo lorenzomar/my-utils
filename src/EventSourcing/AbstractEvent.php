@@ -27,7 +27,7 @@ abstract class AbstractEvent
     /**
      * @var \DateTimeInterface
      */
-    protected $created_at;
+    protected $createdAt;
 
     /**
      * @var string
@@ -37,10 +37,10 @@ abstract class AbstractEvent
     /**
      * @var string
      */
-    protected $stream_id;
+    protected $streamId;
 
     /**
      * @var string
      */
-    protected $stream_category;
+    protected $streamCategory;
 }
