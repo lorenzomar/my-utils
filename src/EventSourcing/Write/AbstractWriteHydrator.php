@@ -62,7 +62,7 @@ abstract class AbstractWriteHydrator extends Reflection
     public function extract($object)
     {
         $e            = parent::extract($object);
-        $e['payload'] = $this->buildPayload($e);
+        $e['payload'] = json_encode($this->buildPayload($e));
 
         return $e;
     }
