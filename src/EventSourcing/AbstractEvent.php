@@ -43,4 +43,13 @@ abstract class AbstractEvent
      * @var string
      */
     protected $streamCategory;
+
+    public function __construct(UuidInterface $id, \DateTimeInterface $createdAt, $name, $streamId, $streamCategory)
+    {
+        $this->id             = $id;
+        $this->createdAt      = $createdAt;
+        $this->name           = $name;
+        $this->streamId       = $streamId;
+        $this->streamCategory = $streamCategory;
+    }
 }
