@@ -7,7 +7,7 @@
  */
 
 $path1 = __DIR__ . '/../vendor/autoload.php';
-$path2 = __DIR__ . '/../../../vendor/autoload.php';
+$path2 = __DIR__ . '/../../../../vendor/autoload.php';
 
 require file_exists($path1)? $path1 : $path2;
 
