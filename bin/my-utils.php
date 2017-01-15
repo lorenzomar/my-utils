@@ -6,10 +6,10 @@
  * (c) Lorenzo Marzullo <marzullo.lorenzo@gmail.com>
  */
 
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
+$path1 = __DIR__ . '/../vendor/autoload.php';
+$path2 = __DIR__ . '/../../../../vendor/autoload.php';
 
-require __DIR__ . '/../vendor/autoload.php';
+require file_exists($path1)? $path1 : $path2;
 
 $application = new \Symfony\Component\Console\Application();
 $application->add(new \Utils\EventSourcing\Cli\InitEventSourcingDbCommand());
