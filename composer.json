@@ -19,16 +19,10 @@
         }
     },
     "require": {
-        "symfony/property-access": "^3.2",
-        "doctrine/dbal": "^2.5",
-        "ramsey/uuid": "^3.5",
-        "zendframework/zend-hydrator": "^2.2",
-        "lorenzomar/zend-hydrator-utilities": "^0.1",
-        "symfony/console": "^3.2"
+        "ramsey/uuid": "^3.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.5",
         "mockery/mockery": "^0.9.6"
-    },
-    "bin": ["bin/my-utils"]
+    }
 }
