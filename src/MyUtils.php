@@ -51,4 +51,14 @@ class MyUtils
     {
         return new DateTimeUtils();
     }
+
+    /**
+     * arr.
+     *
+     * @return ArrayUtils
+     */
+    public static function arr()
+    {
+        return new ArrayUtils();
+    }
 }
