@@ -18,14 +18,14 @@ namespace MyUtils;
 class ArrayUtils
 {
     /**
-     * is_assoc.
+     * isAssoc.
      * Controlla se l'array passato contiene delle chiavi che non sono numeriche.
      *
      * @param array $array
      *
      * @return bool
      */
-    public function is_assoc(array $array)
+    public function isAssoc(array $array)
     {
         $isAssoc = true;
 
