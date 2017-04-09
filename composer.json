@@ -1,5 +1,5 @@
 {
-    "name": "lorenzomar/utils",
+    "name": "lorenzomar/my-utils",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,12 +10,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Utils\\": "src"
+            "MyUtils\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Utils\\Tests\\": "tests"
+            "MyUtils\\Tests\\": "tests"
         }
     },
     "require": {
