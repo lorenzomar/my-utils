@@ -23,12 +23,17 @@ class MyUtils
      *
      * @param string $classFqn
      * @param string $value
+     * @param mixed  $default
      *
      * @return mixed
      */
-    public static function initMyCLabsEnum($classFqn, $value)
+    public static function initMyCLabsEnum($classFqn, $value, $default = null)
     {
-        return call_user_func_array($classFqn . "::" . strtoupper($value), []);
+        try {
+            return call_user_func_array($classFqn . "::" . strtoupper($value), []);
+        } catch (\Exception $e) {
+            return $default;
+        }
     }
 
     /**
@@ -60,5 +65,15 @@ class MyUtils
     public static function arr()
     {
         return new ArrayUtils();
+    }
+
+    /**
+     * repository.
+     *
+     * @return RepositoryUtils
+     */
+    public static function repository()
+    {
+        return new RepositoryUtils();
     }
 }
