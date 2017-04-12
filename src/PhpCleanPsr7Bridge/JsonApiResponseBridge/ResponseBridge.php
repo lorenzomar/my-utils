@@ -8,6 +8,7 @@
 
 namespace MyUtils\PhpCleanPsr7Bridge\JsonApiResponseBridge;
 
+use function GuzzleHttp\Psr7\stream_for;
 use MyUtils\PhpCleanPsr7Bridge\ResponseBridgeInterface;
 use PhpClean\UseCase\ResponseInterface as PhpCleanResponseInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
@@ -84,60 +85,7 @@ class ResponseBridge implements ResponseBridgeInterface
             }
 
             if (!empty($errors)) {
-                return $psr7Response->withJson(['errors' => $errors], $httpStatusCode);
-                return $this->withJsonApiErrors(
-                    $includeErrorDetails ? $errors : [],
-                    $httpStatusCode
-                );
-            }
-
-
-            $errors              = [];
-            $errors              = [];
-            $includeErrorDetails = isset($rules['includeErrorDetails']) ? (bool) $rules['includeErrorDetails'] : true;
-
-            foreach ($rules['map'] as $map) {
-                if (!$response->has($map['errorKey'])) {
-                    continue;
-                }
-
-                $errorKey         = $map['errorKey'];
-                $errorCodes       = (!isset($map['errorCodes']) || is_null($map['errorCodes']) || empty($map['errorCodes'])) ?
-                    null :
-                    $map['errorCodes'];
-                $callback         = (!isset($map['callback']) || !is_callable($map['callback'])) ? null : $map['callback'];
-                $jsonApiErrorCode = isset($map['jsonApiErrorCode']) ? $map['jsonApiErrorCode'] : null;
-                $sourcePointer    = isset($map['jsonApiSourcePointer']) ? $map['jsonApiSourcePointer'] : null;
-                $sourceParameter  = isset($map['jsonApiSourceParameter']) ? $map['jsonApiSourceParameter'] : null;
-                $includeMeta      = isset($map['includeMeta']) ? (bool) $map['includeMeta'] : true;
-
-                if ($callback && $response->has($errorKey)) {
-                    $errors = array_merge($errors, call_user_func_array($callback, [$response->get($errorKey), $this]));
-                } else {
-                    if ($errorCodes === null && $response->has($errorKey)) {
-                        $errors[] = $this->makeJsonApiError($jsonApiErrorCode, $sourcePointer, $sourceParameter);
-                    } else {
-                        foreach ($errorCodes as $errorCode) {
-                            if ($response->hasError($errorKey, $errorCode)) {
-                                $error = $response->getError($errorKey, $errorCode);
-
-                                $errors[] = $this->makeJsonApiError(
-                                    $errorCode,
-                                    $sourcePointer,
-                                    $sourceParameter,
-                                    $includeMeta ? $error['meta'] : []
-                                );
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!empty($errors)) {
-                return $this->withJsonApiErrors(
-                    $includeErrorDetails ? $errors : [],
-                    $httpStatusCode
-                );
+                return $this->psr7ResponseWithJson($psr7Response, ['errors' => $errors], $httpStatusCode);
             }
         }
 
@@ -146,18 +94,16 @@ class ResponseBridge implements ResponseBridgeInterface
 
     private function psr7ResponseWithJson(PsrResponseInterface $response, $data, $status = null, $encodingOptions = 0)
     {
-        $response = $this->withBody(new Body(fopen('php://temp', 'r+')));
-        $response->body->write($json = json_encode($data, $encodingOptions));
+        $json = json_encode($data, $encodingOptions);
 
         // Ensure that the json encoding passed successfully
         if ($json === false) {
             throw new \RuntimeException(json_last_error_msg(), json_last_error());
         }
 
-        $responseWithJson = $response->withHeader('Content-Type', 'application/json;charset=utf-8');
-        if (isset($status)) {
-            return $responseWithJson->withStatus($status);
-        }
-        return $responseWithJson;
+        $response = $response->withBody(stream_for($json))
+                             ->withHeader('Content-Type', 'application/json;charset=utf-8');
+
+        return isset($status) ? $response->withStatus($status) : $response;
     }
 }
