@@ -50,6 +50,8 @@ class ResponseBridge implements ResponseBridgeInterface
             $jsonApiErrorCodes,
             $includeMeta
         );
+
+        return $this;
     }
 
     public function addParameterErrorMapper(
@@ -67,6 +69,8 @@ class ResponseBridge implements ResponseBridgeInterface
             $jsonApiErrorCodes,
             $includeMeta
         );
+
+        return $this;
     }
 
     public function transform(PhpCleanResponseInterface $phpCleanResponse, PsrResponseInterface $psr7Response)
