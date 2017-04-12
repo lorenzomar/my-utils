@@ -11,7 +11,6 @@ namespace MyUtils\PhpCleanPsr7Bridge\JsonApiResponseBridge;
 use MyUtils\PhpCleanPsr7Bridge\ResponseBridgeInterface;
 use PhpClean\UseCase\ResponseInterface as PhpCleanResponseInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
-use Ramsey\Uuid\Uuid;
 
 /**
  * Class ResponseBridge.
@@ -84,14 +83,18 @@ class ResponseBridge implements ResponseBridgeInterface
                 }
             }
 
-            if(!empty($errors)) {
-
+            if (!empty($errors)) {
+                return $psr7Response->withJson(['errors' => $errors], $httpStatusCode);
+                return $this->withJsonApiErrors(
+                    $includeErrorDetails ? $errors : [],
+                    $httpStatusCode
+                );
             }
 
 
             $errors              = [];
             $errors              = [];
-            $includeErrorDetails = isset($rules['includeErrorDetails']) ? (bool)$rules['includeErrorDetails'] : true;
+            $includeErrorDetails = isset($rules['includeErrorDetails']) ? (bool) $rules['includeErrorDetails'] : true;
 
             foreach ($rules['map'] as $map) {
                 if (!$response->has($map['errorKey'])) {
@@ -106,7 +109,7 @@ class ResponseBridge implements ResponseBridgeInterface
                 $jsonApiErrorCode = isset($map['jsonApiErrorCode']) ? $map['jsonApiErrorCode'] : null;
                 $sourcePointer    = isset($map['jsonApiSourcePointer']) ? $map['jsonApiSourcePointer'] : null;
                 $sourceParameter  = isset($map['jsonApiSourceParameter']) ? $map['jsonApiSourceParameter'] : null;
-                $includeMeta      = isset($map['includeMeta']) ? (bool)$map['includeMeta'] : true;
+                $includeMeta      = isset($map['includeMeta']) ? (bool) $map['includeMeta'] : true;
 
                 if ($callback && $response->has($errorKey)) {
                     $errors = array_merge($errors, call_user_func_array($callback, [$response->get($errorKey), $this]));
@@ -139,5 +142,22 @@ class ResponseBridge implements ResponseBridgeInterface
         }
 
         return $psr7Response;
+    }
+
+    private function psr7ResponseWithJson(PsrResponseInterface $response, $data, $status = null, $encodingOptions = 0)
+    {
+        $response = $this->withBody(new Body(fopen('php://temp', 'r+')));
+        $response->body->write($json = json_encode($data, $encodingOptions));
+
+        // Ensure that the json encoding passed successfully
+        if ($json === false) {
+            throw new \RuntimeException(json_last_error_msg(), json_last_error());
+        }
+
+        $responseWithJson = $response->withHeader('Content-Type', 'application/json;charset=utf-8');
+        if (isset($status)) {
+            return $responseWithJson->withStatus($status);
+        }
+        return $responseWithJson;
     }
 }
