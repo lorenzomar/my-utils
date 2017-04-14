@@ -119,6 +119,25 @@ class ErrorMapper
     }
 
     /**
+     * withoutParameters.
+     *
+     * @param string $phpCleanErrorKey
+     * @param array  $phpCleanErrorCodes
+     * @param array  $jsonApiErrorCodes
+     * @param bool   $includeMeta
+     *
+     * @return static
+     */
+    public static function withoutParameters(
+        $phpCleanErrorKey,
+        array $phpCleanErrorCodes = [],
+        array $jsonApiErrorCodes = [],
+        $includeMeta
+    ) {
+        return new static($phpCleanErrorKey, $phpCleanErrorCodes, $jsonApiErrorCodes, $includeMeta);
+    }
+
+    /**
      * canManageThisResponse.
      *
      * @param ResponseInterface $response

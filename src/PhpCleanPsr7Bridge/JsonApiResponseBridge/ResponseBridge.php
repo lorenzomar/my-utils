@@ -73,12 +73,25 @@ class ResponseBridge implements ResponseBridgeInterface
         return $this;
     }
 
+    public function addWithoutParametersErrorMapper(
+        $httpStatusCode,
+        $phpCleanErrorKey,
+        array $phpCleanErrorCodes = [],
+        array $jsonApiErrorCodes = [],
+        $includeMeta = true
+    ) {
+        $this->errorMappers[$httpStatusCode][] = ErrorMapper::withoutParameters(
+            $phpCleanErrorKey,
+            $phpCleanErrorCodes,
+            $jsonApiErrorCodes,
+            $includeMeta
+        );
+
+        return $this;
+    }
+
     public function transform(PhpCleanResponseInterface $phpCleanResponse, PsrResponseInterface $psr7Response)
     {
-        if ($phpCleanResponse->isSuccess()) {
-            return $psr7Response;
-        }
-
         foreach ($this->errorMappers as $httpStatusCode => $mappers) {
             $errors = [];
 
