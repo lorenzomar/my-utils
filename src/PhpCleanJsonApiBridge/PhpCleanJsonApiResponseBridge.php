@@ -107,7 +107,7 @@ class PhpCleanJsonApiResponseBridge
 
             foreach ($mappers as $mapper) {
                 if ($mapper->canManageThisResponse($phpCleanResponse)) {
-                    $errors = array_merge($errors, $mapper->process($phpCleanResponse));
+                    $errors = array_merge($errors, [$mapper->process($phpCleanResponse)]);
                 }
             }
 
