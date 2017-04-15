@@ -38,6 +38,8 @@ class PhpCleanJsonApiResponseBridge
      *                        jsonApiParameter
      *                        jsonApiErrorCode
      *                        includeMeta
+     *
+     * @return static
      */
     public function addErrorMappers($httpStatusCode, array $mappers)
     {
@@ -51,6 +53,8 @@ class PhpCleanJsonApiResponseBridge
                 $mapper['includeMeta']
             );
         }
+
+        return $this;
     }
 
     /**
