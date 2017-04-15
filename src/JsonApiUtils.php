@@ -8,6 +8,7 @@
 
 namespace MyUtils;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -19,6 +20,20 @@ use Ramsey\Uuid\Uuid;
  */
 class JsonApiUtils
 {
+    /**
+     * getRequestParsedBody.
+     *
+     * @param ServerRequestInterface $request
+     *
+     * @return mixed|null
+     */
+    public function getRequestParsedBody(ServerRequestInterface $request)
+    {
+        $body = $request->getParsedBody();
+
+        return (!is_array($body) || !isset($body['data']) || !is_array($body['data'])) ? null : $body['data'];
+    }
+
     /**
      * buildError.
      *
