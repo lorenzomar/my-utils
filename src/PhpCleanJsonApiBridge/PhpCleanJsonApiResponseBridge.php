@@ -44,7 +44,8 @@ class PhpCleanJsonApiResponseBridge
     public function addErrorMappers($httpStatusCode, array $mappers)
     {
         foreach ($mappers as $mapper) {
-            $this->errorMappers[$httpStatusCode][] = new ErrorMapper(
+            $this->addErrorMapper(
+                $httpStatusCode,
                 $mapper[0],
                 $mapper[1],
                 $mapper[2],
@@ -53,6 +54,40 @@ class PhpCleanJsonApiResponseBridge
                 $mapper[5]
             );
         }
+
+        return $this;
+    }
+
+    /**
+     * addErrorMapper.
+     *
+     * @param string      $httpStatusCode
+     * @param string      $phpCleanErrorKey
+     * @param null|string $phpCleanErrorCode
+     * @param null|string $jsonApiPointer
+     * @param null|string $jsonApiParameter
+     * @param string      $jsonApiErrorCode
+     * @param bool        $includeMeta
+     *
+     * @return static
+     */
+    public function addErrorMapper(
+        $httpStatusCode,
+        $phpCleanErrorKey,
+        $phpCleanErrorCode = null,
+        $jsonApiPointer = null,
+        $jsonApiParameter = null,
+        $jsonApiErrorCode,
+        $includeMeta = true
+    ) {
+        $this->errorMappers[$httpStatusCode][] = new ErrorMapper(
+            $phpCleanErrorKey,
+            $phpCleanErrorCode,
+            $jsonApiPointer,
+            $jsonApiParameter,
+            $jsonApiErrorCode,
+            $includeMeta
+        );
 
         return $this;
     }
