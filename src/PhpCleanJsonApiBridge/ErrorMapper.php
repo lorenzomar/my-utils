@@ -110,7 +110,8 @@ class ErrorMapper
     public function process(ResponseInterface $response)
     {
         if (is_null($this->phpCleanErrorCode)) {
-            return MyUtils::jsonApi()->buildError($this->jsonApiErrorCode);
+            return MyUtils::jsonApi()
+                          ->buildError($this->jsonApiErrorCode, $this->jsonApiSourcePointer, $this->jsonApiParameter);
         }
 
         $error = $response->getError($this->phpCleanErrorKey, $this->phpCleanErrorCode);
