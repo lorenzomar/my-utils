@@ -8,6 +8,7 @@
 
 namespace MyUtils;
 
+use MyUtils\PhpCleanJsonApiBridge\PhpCleanJsonApiResponseBridge;
 use MyUtils\PhpCleanPsr7Bridge\JsonApiResponseBridge\ResponseBridge;
 
 /**
@@ -80,12 +81,22 @@ class MyUtils
     }
 
     /**
-     * jsonApiResponseBridge.
+     * phpCleanPsr7Bridge.
      *
-     * @return ResponseBridge
+     * @return PhpCleanJsonApiResponseBridge
      */
-    public static function jsonApiResponseBridge()
+    public static function phpCleanJsonApiResponseBridge()
     {
-        return new ResponseBridge();
+        return new PhpCleanJsonApiResponseBridge();
+    }
+
+    /**
+     * jsonApi.
+     *
+     * @return JsonApiUtils
+     */
+    public static function jsonApi()
+    {
+        return new JsonApiUtils();
     }
 }
