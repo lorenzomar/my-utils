@@ -42,12 +42,13 @@ class UuidUtils
      *
      * @param UuidInterface|UuidInterface[]|string|string[] $uuid1
      *
-     * @return string
+     * @return string|string[]
      */
     public function mysqlOptimizeUuid1($uuid1)
     {
-        $uuid1 = is_array($uuid1) ? $uuid1 : [$uuid1];
-        $uuid1 = array_map(function ($uuid) {
+        $isSingle = $uuid1 instanceof UuidInterface;
+        $uuid1    = $isSingle ? [$uuid1] : $uuid1;
+        $uuid1    = array_map(function ($uuid) {
             $v = ($uuid instanceof UuidInterface) ? (string)$uuid : $uuid;
 
             return hex2bin(substr($v, 14, 4) .
@@ -58,7 +59,7 @@ class UuidUtils
             );
         }, $uuid1);
 
-        return (count($uuid1) === 1) ? array_shift($uuid1) : $uuid1;
+        return $isSingle ? array_shift($uuid1) : $uuid1;
     }
 
     /**
@@ -68,11 +69,12 @@ class UuidUtils
      *
      * @param string|string[] $optimizedUuid1
      *
-     * @return string
+     * @return string|string[]
      */
     public function mysqlUnoptimizeUuid1($optimizedUuid1)
     {
-        $optimizedUuid1 = is_array($optimizedUuid1) ? $optimizedUuid1 : [$optimizedUuid1];
+        $isSingle       = !is_array($optimizedUuid1);
+        $optimizedUuid1 = $isSingle ? [$optimizedUuid1] : $optimizedUuid1;
         $optimizedUuid1 = array_map(function ($optimizedUuid) {
             $v = bin2hex($optimizedUuid);
 
@@ -83,6 +85,6 @@ class UuidUtils
                 substr($v, 20);
         }, $optimizedUuid1);
 
-        return (count($optimizedUuid1) === 1) ? array_shift($optimizedUuid1) : $optimizedUuid1;
+        return $isSingle ? array_shift($optimizedUuid1) : $optimizedUuid1;
     }
 }
