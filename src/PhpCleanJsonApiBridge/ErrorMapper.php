@@ -53,17 +53,17 @@ class ErrorMapper
     public function __construct(
         $phpCleanErrorKey,
         $phpCleanErrorCode = null,
-        $jsonApiPointer = null,
+        $jsonApiSourcePointer = null,
         $jsonApiParameter = null,
         $jsonApiErrorCode,
         $includeMeta = true
     ) {
-        $this->phpCleanErrorKey  = $phpCleanErrorKey;
-        $this->phpCleanErrorCode = $phpCleanErrorCode;
-        $this->jsonApiPointer    = $jsonApiPointer;
-        $this->jsonApiParameter  = $jsonApiParameter;
-        $this->jsonApiErrorCode  = $jsonApiErrorCode;
-        $this->includeMeta       = $includeMeta;
+        $this->phpCleanErrorKey     = $phpCleanErrorKey;
+        $this->phpCleanErrorCode    = $phpCleanErrorCode;
+        $this->jsonApiSourcePointer = $jsonApiSourcePointer;
+        $this->jsonApiParameter     = $jsonApiParameter;
+        $this->jsonApiErrorCode     = $jsonApiErrorCode;
+        $this->includeMeta          = $includeMeta;
     }
 
     /**
