@@ -34,7 +34,7 @@ class PhpCleanJsonApiResponseBridge
      * @param array  $mappers array composto da:
      *                        0 => phpCleanErrorKey
      *                        1 => phpCleanErrorCode
-     *                        2 => jsonApiPointer
+     *                        2 => jsonApiSourcePointer
      *                        3 => jsonApiParameter
      *                        4 => jsonApiErrorCode
      *                        5 => includeMeta
@@ -64,7 +64,7 @@ class PhpCleanJsonApiResponseBridge
      * @param string      $httpStatusCode
      * @param string      $phpCleanErrorKey
      * @param null|string $phpCleanErrorCode
-     * @param null|string $jsonApiPointer
+     * @param null|string $jsonApiSourcePointer
      * @param null|string $jsonApiParameter
      * @param string      $jsonApiErrorCode
      * @param bool        $includeMeta
@@ -75,7 +75,7 @@ class PhpCleanJsonApiResponseBridge
         $httpStatusCode,
         $phpCleanErrorKey,
         $phpCleanErrorCode = null,
-        $jsonApiPointer = null,
+        $jsonApiSourcePointer = null,
         $jsonApiParameter = null,
         $jsonApiErrorCode,
         $includeMeta = true
@@ -83,7 +83,7 @@ class PhpCleanJsonApiResponseBridge
         $this->errorMappers[$httpStatusCode][] = new ErrorMapper(
             $phpCleanErrorKey,
             $phpCleanErrorCode,
-            $jsonApiPointer,
+            $jsonApiSourcePointer,
             $jsonApiParameter,
             $jsonApiErrorCode,
             $includeMeta

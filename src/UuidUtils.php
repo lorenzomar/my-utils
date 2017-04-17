@@ -46,7 +46,7 @@ class UuidUtils
      */
     public function mysqlOptimizeUuid1($uuid1)
     {
-        $isSingle = $uuid1 instanceof UuidInterface;
+        $isSingle = !is_array($uuid1);
         $uuid1    = $isSingle ? [$uuid1] : $uuid1;
         $uuid1    = array_map(function ($uuid) {
             $v = ($uuid instanceof UuidInterface) ? (string)$uuid : $uuid;
